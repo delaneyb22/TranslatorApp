@@ -16,6 +16,22 @@
       font-size: 18px;
     }
  </style>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      function init() {
+        var apiKey = ' AIzaSyC2X0EZrsb8Q924TuqewQDvG6-9kAOVjYo';
+        var textToTranslate = $('#textToTranslate').val();
+        var targetLanguage = $('#targetLanguage').val();
+        var sourceLanguage = $('#sourceLanguage').val();
+
+        var apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&source=${sourceLanguage}&target=${targetLanguage}&q=${textToTranslate}`;
+
+        $.get(apiUrl, function(response) {
+          $('#translatedText').html(response.data.translations[0].translatedText);
+        });
+      }
+    </script>
 </head>
 <body>
  <h1>Language Translator</h1>
@@ -43,4 +59,18 @@
       <option value="en">English</option>
       <option value="es">Spanish</option>
       <option value="fr">French</option>
-      <option value="de
+    </select>   
+
+</form>
+<input type="text" id="textToTranslate" placeholder="Enter text to translate" />
+<br />
+<input type="text" id="targetLanguage" placeholder="Enter target language code" />
+<br />
+<input type="text" id="sourceLanguage" placeholder="Enter source language code" />
+<br />
+<button onclick="init()">Translate</button>
+<br />
+<div id="translatedText"></div>
+
+</body>
+</html>
