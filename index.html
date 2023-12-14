@@ -52,22 +52,39 @@ button {
 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-      function init() {
-        var apiKey = ' AIzaSyC2X0EZrsb8Q924TuqewQDvG6-9kAOVjYo';
-        var textToTranslate = $('#textToTranslate').val();
-        var targetLanguage = $('#targetLanguage').val();
-        var sourceLanguage = $('#sourceLanguage').val();
+      let history = [];
 
-        var apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&source=${sourceLanguage}&target=${targetLanguage}&q=${textToTranslate}`;
+      function init() {
+        let apiKey = 'AIzaSyC2X0EZrsb8Q924TuqewQDvG6-9kAOVjYo';
+        let textToTranslate = $('#textToTranslate').val();
+        let targetLanguage = $('#targetLanguage').val();
+        let sourceLanguage = $('#sourceLanguage').val();
+
+        let apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&source=${sourceLanguage}&target=${targetLanguage}&q=${textToTranslate}`;
 
         $.get(apiUrl, function(response) {
-          $('#translatedText').html(response.data.translations[0].translatedText);
+          let translatedText = response.data.translations[0].translatedText;
+          $('#translatedText').html(translatedText);
+
+          // Add the translated text to the history array
+          history.push({source: textToTranslate, target: translatedText});
+
+          // Display the history on the page
+          displayHistory();
         });
+      }
+
+      function displayHistory() {
+        let historyHTML = '';
+        for (let i = 0; i < history.length; i++) {
+          historyHTML += `Source: ${history[i].source} - Target: ${history[i].target}<br />`;
+        }
+        $('#history').html(historyHTML);
       }
     </script>
 </head>
 <header>
-  <h1>Welcome to the language Translator App</h1>
+ <h1>Welcome to the language Translator App</h1>
 </header>
 <body>
  <h1>Language Translator</h1>
@@ -81,6 +98,9 @@ button {
 <button onclick="init()">Translate</button>
 <br />
 <div id="translatedText"></div>
+<br />
+<h2>Translation History:</h2>
+<div id="history"></div>
 
 </body>
 </html>
