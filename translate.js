@@ -1,3 +1,4 @@
+
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate();
 
@@ -42,3 +43,4 @@ jwtClient.authorize((err, tokens) => {
  }
  console.log('Successfully authenticated with the Google Cloud APIs');
 });
+
